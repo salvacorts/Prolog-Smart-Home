@@ -54,8 +54,9 @@ mp(T,T,_).
 
 %%% DICTIONARY
 % We may add something here like is on, or temperature, or w/e
-adj([large | T],T,Obj) :- large(Obj).
-adj([Lang,speaking | T],T,Obj) :- speaks(Obj,Lang).
+%adj([large | T],T,Obj) :- large(Obj).
+%adj([Lang,speaking | T],T,Obj) :- speaks(Obj,Lang).
+adj([turned, X | T], T, Obj) :- action(Obj, power), state(Obj, power, X).
 
 noun([location | T],T,Obj) :- location(Obj).
 noun([object | T],T,Obj) :- object(Obj).
@@ -172,12 +173,40 @@ action(cofee_machine, make). % make cofee
 
 %% is_on(Location, Object): The Object in this Location is ON otherwise is off
 
+%% state(Object, attribute, value)
+state(light, power, on).
+
+state(heating, power, on).
+state(heating, temperature, 20).
+
+state(ac, power, off).
+state(ac, temperature, 20).
+
+state(curtain, power, off).
+
+state(tv, power, on).
+state(tv, channel, 7).
+state(tv, volume, 18).
+
+
+state(speaker, power, on).
+state(tv, volume, 11).
+state(tv, playing, true).
+
+state(oven, power, off).
+state(oven, temperature, 200).
+
+state(cofee_machine, power, off).
+
+state(dish_washer, power, off).
 
 /* Try the following queries:
 ?- ask([what, is, a, location], A).
 ?- ask([what, is, a, object], A).
 ?- ask([what, is, equiped, on, kitchen], A).
 ?- ask([what, is, action, of, tv], A).
+?- ask([what, is, a, turned, on, object], A).
+?- ask([what, is, a, turned, off, object], A).
 */
 
 
