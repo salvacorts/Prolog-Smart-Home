@@ -56,7 +56,10 @@ mp(T,T,_).
 % We may add something here like is on, or temperature, or w/e
 %adj([large | T],T,Obj) :- large(Obj).
 %adj([Lang,speaking | T],T,Obj) :- speaks(Obj,Lang).
-adj([turned, X | T], T, Obj) :- action(Obj, power), state(Obj, power, X).
+adj([turned, X | T], T, Obj) :- state(Obj, power, X).
+adj([volume, X | T], T, Obj) :- state(Obj, volume, X).
+adj([channel, X | T], T, Obj) :- state(Obj, channel, X).
+adj([temperature, X | T], T, Obj) :- state(Obj, temperature, X).
 
 noun([location | T],T,Obj) :- location(Obj).
 noun([object | T],T,Obj) :- object(Obj).
@@ -207,6 +210,8 @@ state(dish_washer, power, off).
 ?- ask([what, is, action, of, tv], A).
 ?- ask([what, is, a, turned, on, object], A).
 ?- ask([what, is, a, turned, off, object], A).
+?- ask([what, is, a, temperature, X, object], A).
+?- ask([what, is, a, temperature, X, oven], _).
 */
 
 
