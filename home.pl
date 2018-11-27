@@ -56,10 +56,7 @@ mp(T,T,_).
 % We may add something here like is on, or temperature, or w/e
 %adj([large | T],T,Obj) :- large(Obj).
 %adj([Lang,speaking | T],T,Obj) :- speaks(Obj,Lang).
-adj([turned, X | T], T, Obj) :- state(Obj, power, X).
-adj([volume, X | T], T, Obj) :- state(Obj, volume, X).
-adj([channel, X | T], T, Obj) :- state(Obj, channel, X).
-adj([temperature, X | T], T, Obj) :- state(Obj, temperature, X).
+adj([turned, X | T], T, Obj) :- action(Obj, power), state(Obj, _, power, X).
 
 noun([location | T],T,Obj) :- location(Obj).
 noun([object | T],T,Obj) :- object(Obj).
@@ -176,42 +173,65 @@ action(cofee_machine, make). % make cofee
 
 %% is_on(Location, Object): The Object in this Location is ON otherwise is off
 
-%% state(Object, attribute, value)
-state(light, power, on).
+%% state(Location, Object, attribute, value)
+state(living_room, light, power, on).
+state(kitchen, light, power, off).
+state(bedroom_1, light, power, off).
+state(bedroom_2, light, power, on).
+state(corridor, light, power, off).
 
-state(heating, power, on).
-state(heating, temperature, 20).
+state(living_room, heating, power, on).
+state(living_room, heating, temperature, 20).
 
-state(ac, power, off).
-state(ac, temperature, 20).
+state(kitchen, heating, power, off).
+state(kitchen, heating, temperature, 20).
 
-state(curtain, power, off).
+state(bedroom_1, heating, power, on).
+state(bedroom_1, heating, temperature, 20).
 
-state(tv, power, on).
-state(tv, channel, 7).
-state(tv, volume, 18).
+state(bedroom_2, heating, power, on).
+state(bedroom_2, heating, temperature, 20).
 
+state(corridor, heating, power, off).
+state(corridor, heating, temperature, 20).
 
-state(speaker, power, on).
-state(tv, volume, 11).
-state(tv, playing, true).
+state(living_room, ac, power, off).
+state(living_room, ac, temperature, 20).
 
-state(oven, power, off).
-state(oven, temperature, 200).
+state(bedroom_1, ac, power, off).
+state(bedroom_1, ac, temperature, 20).
 
-state(cofee_machine, power, off).
+state(living_room, curtain, power, off).
+state(bedroom_1, curtain, power, off).
+state(bedroom_2, curtain, power, on).
 
-state(dish_washer, power, off).
+state(living_room, tv, power, on).
+state(living_room, tv, channel, 7).
+state(living_room, tv, volume, 18).
+
+state(bedroom_1, tv, power, on).
+state(bedroom_1, tv, channel, 10).
+state(bedroom_1, tv, volume, 12).
+
+state(living_room, speaker, power, on).
+state(living_room, speaker, volume, 11).
+state(living_room, speaker, playing, true).
+
+state(kitchen, oven, power, off).
+state(kitchen, oven, temperature, 200).
+
+state(kitchen, cofee_machine, power, off).
+
+state(kitchen, dish_washer, power, off).
 
 /* Try the following queries:
 ?- ask([what, is, a, location], A).
 ?- ask([what, is, a, object], A).
 ?- ask([what, is, equiped, on, kitchen], A).
+?- ask([what, is, a, object, that, equiped, on, kitchen], A).
 ?- ask([what, is, action, of, tv], A).
 ?- ask([what, is, a, turned, on, object], A).
 ?- ask([what, is, a, turned, off, object], A).
-?- ask([what, is, a, temperature, X, object], A).
-?- ask([what, is, a, temperature, X, oven], _).
 */
 
 
