@@ -174,55 +174,55 @@ action(cofee_machine, make). % make cofee
 %% is_on(Location, Object): The Object in this Location is ON otherwise is off
 
 %% state(Location, Object, attribute, value)
-state(living_room, light, power, on).
-state(kitchen, light, power, off).
-state(bedroom_1, light, power, off).
-state(bedroom_2, light, power, on).
-state(corridor, light, power, off).
+%state(living_room, light, power, on).
+%state(kitchen, light, power, off).
+%state(bedroom_1, light, power, off).
+%state(bedroom_2, light, power, on).
+%state(corridor, light, power, off).
 
-state(living_room, heating, power, on).
-state(living_room, heating, temperature, 20).
+%state(living_room, heating, power, on).
+%state(living_room, heating, temperature, 20).
 
-state(kitchen, heating, power, off).
-state(kitchen, heating, temperature, 20).
+%state(kitchen, heating, power, off).
+%state(kitchen, heating, temperature, 20).
 
-state(bedroom_1, heating, power, on).
-state(bedroom_1, heating, temperature, 20).
+%state(bedroom_1, heating, power, on).
+%state(bedroom_1, heating, temperature, 20).
 
-state(bedroom_2, heating, power, on).
-state(bedroom_2, heating, temperature, 20).
+%state(bedroom_2, heating, power, on).
+%state(bedroom_2, heating, temperature, 20).
 
-state(corridor, heating, power, off).
-state(corridor, heating, temperature, 20).
+%state(corridor, heating, power, off).
+%state(corridor, heating, temperature, 20).
 
-state(living_room, ac, power, off).
-state(living_room, ac, temperature, 20).
+%state(living_room, ac, power, off).
+%state(living_room, ac, temperature, 20).
 
-state(bedroom_1, ac, power, off).
-state(bedroom_1, ac, temperature, 20).
+%state(bedroom_1, ac, power, off).
+%state(bedroom_1, ac, temperature, 20).
 
-state(living_room, curtain, power, off).
-state(bedroom_1, curtain, power, off).
-state(bedroom_2, curtain, power, on).
+%state(living_room, curtain, power, off).
+%state(bedroom_1, curtain, power, off).
+%state(bedroom_2, curtain, power, on).
 
-state(living_room, tv, power, on).
-state(living_room, tv, channel, 7).
-state(living_room, tv, volume, 18).
+%state(living_room, tv, power, on).
+%state(living_room, tv, channel, 7).
+%state(living_room, tv, volume, 18).
 
-state(bedroom_1, tv, power, on).
-state(bedroom_1, tv, channel, 10).
-state(bedroom_1, tv, volume, 12).
+%state(bedroom_1, tv, power, on).
+%state(bedroom_1, tv, channel, 10).
+%state(bedroom_1, tv, volume, 12).
 
-state(living_room, speaker, power, on).
-state(living_room, speaker, volume, 11).
-state(living_room, speaker, playing, true).
+%state(living_room, speaker, power, on).
+%state(living_room, speaker, volume, 11).
+%state(living_room, speaker, playing, true).
 
-state(kitchen, oven, power, off).
-state(kitchen, oven, temperature, 200).
+%state(kitchen, oven, power, off).
+%state(kitchen, oven, temperature, 200).
 
-state(kitchen, cofee_machine, power, off).
+%state(kitchen, cofee_machine, power, off).
 
-state(kitchen, dish_washer, power, off).
+%state(kitchen, dish_washer, power, off).
 
 /* Try the following queries:
 ?- ask([what, is, a, location], A).
