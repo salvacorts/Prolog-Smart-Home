@@ -19,7 +19,7 @@ valid_command(equip, L, empty, empty, with, Obj):- location(L), object(Obj).
 valid_command(drop, Obj, LP, L, empty, empty):- location(L), object(Obj), member(LP, [in,of]).
 valid_command(set, volume, of, Obj, to, Size):- action(Obj, volume_up), number(Size). 
 valid_command(set, Obj, empty, empty, to, Size):- action(Obj, increase), number(Size).
-valid_command(set, Obj, LP, L, to, Size):- action(Obj, increase), number(Size), member(LP, [in, of]), Location(L).
+valid_command(set, Obj, LP, L, to, Size):- action(Obj, increase), number(Size), member(LP, [in, of]), location(L).
 
 exe(activate,Obj,empty,empty,_, L):- location(L), object(Obj), equiped(L,Obj), retractall(state(L,Obj,power,_)), assertz(state(L,Obj,power,on)).
 exe(activate,Obj,empty,empty,Location, empty):- location(Location), object(Obj), equiped(Location,Obj), retractall(state(Location,Obj,power,_)), assertz(state(Location,Obj,power,on)).
