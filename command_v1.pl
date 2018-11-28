@@ -3,7 +3,7 @@
 c(Location):-
     write("command me: "),flush_output(current_output),
     readln(Ln),
-    command(Ln,End,V,N,LP,L,P,N2),
+    command(Ln,End,V,N,_,L,P,N2),
     member(End,[[],['.']]),
     exe(V,N,P,N2,Location,L).
 
@@ -21,16 +21,16 @@ valid_command(set, volume, of, Obj, to, Size):- action(Obj, volume_up), number(S
 valid_command(set, Obj, empty, empty, to, Size):- action(Obj, increase), number(Size).
 valid_command(set, Obj, LP, L, to, Size):- action(Obj, increase), number(Size), member(LP, [in, of]), Location(L).
 
-exe(activate,Obj,empty,empty,Location, L):- location(L), object(Obj), equiped(L,Obj), retractall(state(L,Obj,power,_)), assertz(state(L,Obj,power,on)).
+exe(activate,Obj,empty,empty,_, L):- location(L), object(Obj), equiped(L,Obj), retractall(state(L,Obj,power,_)), assertz(state(L,Obj,power,on)).
 exe(activate,Obj,empty,empty,Location, empty):- location(Location), object(Obj), equiped(Location,Obj), retractall(state(Location,Obj,power,_)), assertz(state(Location,Obj,power,on)).
-exe(deactivate,Obj,empty,empty,Location, L):- location(L), object(Obj), equiped(L,Obj), retractall(state(L,Obj,power,_)), assertz(state(L,Obj,power,off)).
+exe(deactivate,Obj,empty,empty,_, L):- location(L), object(Obj), equiped(L,Obj), retractall(state(L,Obj,power,_)), assertz(state(L,Obj,power,off)).
 exe(deactivate,Obj,empty,empty,Location, empty):- location(Location), object(Obj), equiped(Location,Obj), retractall(state(Location,Obj,power,_)), assertz(state(Location,Obj,power,off)).
 exe(equip,Location, with, Obj, L, empty):- location(L), object(Obj), assertz(equiped(Location, Obj)).
-exe(drop, Obj, empty, empty, Location, L):- location(L), object(Obj), retractall(equiped(L,Obj)).
-exe(drop, Obj, empty, empty, Location, empty):- location(Location), object(Obj), retractall(equiped(L,Obj)).
-exe(drop, Obj, empty, empty, Location, empty):- location(Location), object(Obj), retractall(equiped(L,Obj)).
+exe(drop, Obj, empty, empty, _, L):- location(L), object(Obj), retractall(equiped(L,Obj)).
+exe(drop, Obj, empty, empty, Location, L):- location(Location), object(Obj), retractall(equiped(L,Obj)).
+exe(drop, Obj, empty, empty, Location, empty):- location(Location), object(Obj), retractall(equiped(Location,Obj)).
 exe(set, volume, to, Size, Location, Obj):- location(Location), equiped(Location,Obj), state(Location,Obj,power,on), retractall(state(Location,Obj,volume,_)), assertz(state(Location,Obj,volume,Size)).
-exe(set, Obj, to, Size, Location, L):- location(L), object(Obj), action(Obj, increase), number(Size), equiped(L, Obj), state(L, Obj, power, on), retractall(state(L,Obj,temperature,_)), assertz(state(L,Obj,temperature,_)). 
+exe(set, Obj, to, Size, _, L):- location(L), object(Obj), action(Obj, increase), number(Size), equiped(L, Obj), state(L, Obj, power, on), retractall(state(L,Obj,temperature,_)), assertz(state(L,Obj,temperature,_)). 
 exe(set, Obj, to, Size, Location, empty):- location(Location), object(Obj), action(Obj, increase), number(Size), equiped(Location, Obj), state(Location, Obj, power, on), retractall(state(Location,Obj,temperature,_)), assertz(state(Location,Obj,temperature,_)). 
 % Prolog representation of a context-free grammar for a very restricted subset of English
 
@@ -75,7 +75,7 @@ verb_phrase(L0,L3,V,N,LP,L,P,N2) :-
 pp(L,L,empty, empty).
 pp(L0,L2,P,N) :-
    preposition(L0,L1,P),
-   noun_c_phrase(L1,L2,N,X,Y).
+   noun_c_phrase(L1,L2,N,_,_).
 
 % adjectives is a sequence of adjectives
 adjectives(L,L).
