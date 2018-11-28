@@ -18,6 +18,8 @@ valid_command(deactivate, Obj, LP, L, empty, empty):- action(Obj,power) , member
 valid_command(equip, L, empty, empty, with, Obj):- location(L), object(Obj).
 valid_command(drop, Obj, LP, L, empty, empty):- location(L), object(Obj), member(LP, [in,of]).
 valid_command(set, volume, of, Obj, to, Size):- action(Obj, volume_up), number(Size). 
+valid_command(set, Obj, empty, empty, to, Size):- action(Obj, increase), number(Size).
+valid_command(set, Obj, LP, L, to, Size):- action(Obj, increase), number(Size), member(LP, [in, of]), Location(L).
 
 exe(activate,Obj,empty,empty,Location, L):- location(L), object(Obj), equiped(L,Obj), retractall(state(L,Obj,power,_)), assertz(state(L,Obj,power,on)).
 exe(activate,Obj,empty,empty,Location, empty):- location(Location), object(Obj), equiped(Location,Obj), retractall(state(Location,Obj,power,_)), assertz(state(Location,Obj,power,on)).
@@ -26,8 +28,10 @@ exe(deactivate,Obj,empty,empty,Location, empty):- location(Location), object(Obj
 exe(equip,Location, with, Obj, L, empty):- location(L), object(Obj), assertz(equiped(Location, Obj)).
 exe(drop, Obj, empty, empty, Location, L):- location(L), object(Obj), retractall(equiped(L,Obj)).
 exe(drop, Obj, empty, empty, Location, empty):- location(Location), object(Obj), retractall(equiped(L,Obj)).
+exe(drop, Obj, empty, empty, Location, empty):- location(Location), object(Obj), retractall(equiped(L,Obj)).
 exe(set, volume, to, Size, Location, Obj):- location(Location), equiped(Location,Obj), state(Location,Obj,power,on), retractall(state(Location,Obj,volume,_)), assertz(state(Location,Obj,volume,Size)).
-
+exe(set, Obj, to, Size, Location, L):- location(L), object(Obj), action(Obj, increase), number(Size), equiped(L, Obj), state(L, Obj, power, on), retractall(state(L,Obj,temperature,_)), assertz(state(L,Obj,temperature,_)). 
+exe(set, Obj, to, Size, Location, empty):- location(Location), object(Obj), action(Obj, increase), number(Size), equiped(Location, Obj), state(Location, Obj, power, on), retractall(state(Location,Obj,temperature,_)), assertz(state(Location,Obj,temperature,_)). 
 % Prolog representation of a context-free grammar for a very restricted subset of English
 
 % This is slightly expanded code of Figures 13.7 & 13.8 in Section 13.6.1 of

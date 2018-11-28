@@ -161,8 +161,8 @@ action(speaker, pause).
 % action(speaker, pause). maybe play song? but it has another argument 
 
 action(oven, power).
-action(oven, temp_up).
-action(oven, temp_down).
+action(oven, increase).
+action(oven, decrease).
 % action(oven, set_timer). Again we would need another argument
 
 action(dish_washer, power).
