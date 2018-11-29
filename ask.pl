@@ -4,11 +4,27 @@
 ?- ask([what, is, a, location], A).
 ?- ask([what, is, a, object], A).
 ?- ask([what, is, equiped, on, kitchen], A).
-?- ask([what, is, a, object, that, equiped, on, kitchen], A).
 ?- ask([what, is, action, of, tv], A).
 ?- ask([what, is, a, turned, on, object], A).
-?- ask([what, is, a, turned, off, object], A).
 ?- ask([what, is, the, volume, of, speaker], A, living_room).
+*/
+
+/* Example Questions
+?- q(_, Ans).
+Ask me: what is a location
+
+?- q(_, Ans).
+Ask me: what is a object
+
+?- q(_, Ans).
+Ask me: what is equiped on kitchen
+
+?- q(_, Ans).
+Ask me: what is action of tv
+
+?- q(living_room, Ans).
+Ask me: what is the volume of speaker
+
 */
 
 % ask(Q,A) gives answer A to question Q
