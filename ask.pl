@@ -1,14 +1,5 @@
 :- dynamic state/4.
 
-/* Try the following queries:
-?- ask([what, is, a, location], A).
-?- ask([what, is, a, object], A).
-?- ask([what, is, equiped, on, kitchen], A).
-?- ask([what, is, action, of, tv], A).
-?- ask([what, is, a, turned, on, object], A).
-?- ask([what, is, the, volume, of, speaker], A, living_room).
-*/
-
 /* Example Questions
 ?- q(_, Ans).
 Ask me: what is a location
@@ -25,6 +16,20 @@ Ask me: what is action of tv
 ?- q(living_room, Ans).
 Ask me: what is the volume of speaker
 
+?- q(living_room, Ans).
+Ask me: what is turned on
+
+?- q(bedroom_1, Ans).
+Aks me: what song is playing
+
+?- q(living_room, Ans).
+Ask me: what is the channel of tv
+
+?- q(living_room, Ans).
+Ask me: what is the temperature of ac
+
+?- q(living_room, Ans).
+Ask me: what is turned on in bedroom_1
 */
 
 % ask(Q,A) gives answer A to question Q
@@ -45,11 +50,6 @@ noun_phrase(T0,T4,Ind, Location) :-
    adjectives(T1,T2,Ind, Location),
    noun(T2,T3,Ind),
    mp(T3,T4,Ind, Location).
-
-% Try:
-%?- noun_phrase([a,spanish,speaking,country],T1,I1).
-%?- noun_phrase([a,country,that,borders,chile],T2,I2).
-%?- noun_phrase([a,spanish,speaking,country,that,borders,chile],T3,I3).
 
 % Determiners (articles) are ignored in this oversimplified example.
 % They do not provide any extra constraints.
@@ -83,11 +83,11 @@ mp([that|T0],T2,Subject, Location) :-
 mp(T,T,_, _).
 
 %%% DICTIONARY
-% We may add something here like is on, or temperature, or w/e
-%adj([large | T],T,Obj) :- large(Obj).
-%adj([Lang,speaking | T],T,Obj) :- speaks(Obj,Lang).
-adj([is, turned, X | T], T, Obj, Location) :- action(Obj, power), state(Location, Obj, power, X).
+adj([turned, X | T], T, Obj, Location) :- action(Obj, power), state(Location, Obj, power, X).
+adj([turned, X , in, L| T], T, Obj, _) :- action(Obj, power), state(L, Obj, power, X).
 adj([the, Attr, of, Obj | T], T, Ans, Location) :- state(Location, Obj, Attr, Ans).
+adj([the, Attr, of, Obj, in, L | T], T, Ans, _) :- state(L, Obj, Attr, Ans).
+adj([song, is, playing | T], T, Ans, Location) :- state(Location, speaker, song_played, Ans).
 
 noun([location | T],T,Obj) :- location(Obj).
 noun([object | T],T,Obj) :- object(Obj).
@@ -97,12 +97,6 @@ noun([X | T],T,X) :- object(X).
 reln([equiped, on | T],T,O1,O2) :- equiped(O2,O1).
 reln([action, of | T],T,O1,O2) :- action(O2,O1).
 
-% See nl_numbera maybe we can run the actions with this?
-% The idea is running something like "volume_up the speaker in living_room"
-% The feedback should be a print statement like "living_room tv channel_up"
-verb([do, X |T], T, singular, do) :- action(_, X).
-
-
 % question(Question,QR,Object) is true if Query provides an answer about Object to Question
 question(['is' | T0],T2,Obj, Location) :-
    noun_phrase(T0,T1,Obj, Location),
@@ -111,6 +105,8 @@ question(['what',is | T0], T1, Obj, Location) :-
    mp(T0,T1,Obj, Location).
 question(['what',is | T0],T1,Obj, Location) :-
    noun_phrase(T0,T1,Obj, Location).
+question(['what' | T0],T1,Obj, Location) :-
+   mp(T0,T1,Obj, Location).
 question(['what' | T0],T2,Obj, Location) :-
    noun_phrase(T0,T1,Obj, Location),
    mp(T1,T2,Obj, Location).

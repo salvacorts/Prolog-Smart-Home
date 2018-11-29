@@ -1,5 +1,22 @@
 :- dynamic state/4.
 
+/* Expample commands
+?- c(bedroom_1).
+command me: equip bedroom_1 with a speaker
+
+?- c(bedroom_1).
+command me: play feeling good
+
+?- c(living_room).
+command me: turn on the tv
+
+?- c(living_room).
+command me: set the tv to channel 22
+
+?- c(living_room).
+ommand me: turn on the light in bedroom_1
+*/
+
 c(Location):-
     write("command me: "),flush_output(current_output),
     readln(Ln),
@@ -256,6 +273,7 @@ noun_c([speakers | L], L, speaker).
 noun_c([speaker | L], L, speaker).
 noun_c([music | L], L, music).
 noun_c([oven | L], L, oven).
+noun_c([curtain | L], L, curtain).
 noun_c([dish,washer | L], L, dish_washer).
 noun_c([Location | L], L, Location):- location(Location).
 noun_c([Number | L], L, Number):- number(Number).
