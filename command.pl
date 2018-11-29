@@ -13,42 +13,56 @@ command(L1,L2,V,N,LP,L,P,N2):-
 
 valid_command(activate, Obj, empty, empty, empty, empty):- 
     action(Obj,power).	
+
 valid_command(activate, Obj, LP, L, empty, empty):- 
     action(Obj,power) , 
     member(LP, [in,of]), location(L).
+
 valid_command(deactivate, Obj, empty, empty, empty, empty):- 
     action(Obj,power).	
+
 valid_command(deactivate, Obj, LP, L, empty, empty):- 
     action(Obj,power) , 
     member(LP, [in,of]), location(L).
+
 valid_command(equip, L, empty, empty, with, Obj):- 
     location(L), 
     object(Obj).
+
 valid_command(drop, Obj, LP, L, empty, empty):- 
     location(L), 
     object(Obj), 
     member(LP, [in,of]).
+
 valid_command(set, volume, of, Obj, to, Size):- 
     action(Obj, volume_up), 
     number(Size). 
+
 valid_command(set, channel, of, Obj, to, Size):- 
     action(Obj, channel_up), 
     number(Size). 
+
 valid_command(set, Obj, to, channel_num(Num), empty, empty):- 
     action(Obj, channel_up), 
     number(Num).
+
 valid_command(set, Obj, empty, empty, to, Size):- 
     action(Obj, increase), 
     number(Size).
+
 valid_command(set, Obj, LP, L, to, Size):- 
     action(Obj, increase), 
     number(Size), 
     member(LP, [in, of]), 
     location(L).
+
 valid_command(play, music, empty, empty, empty, empty).
+
 valid_command(play, Song, empty, empty, empty, empty):- 
     song(Song).
+
 valid_command(pause, music, empty, empty, empty, empty).
+
 
 exe(activate,Obj,empty,empty,_, L):- 
     location(L), 
@@ -137,7 +151,14 @@ exe(set, Obj, to, Size, Location, empty):-
     equiped(Location, Obj), 
     state(Location, Obj, power, on), 
     retractall(state(Location,Obj,temperature,_)), 
-    assertz(state(Location,Obj,temperature,_)). 
+    assertz(state(Location,Obj,temperature,Size)). 
+	
+set(set, oven, to, Size, _, empty):-
+    number(Size),
+    equiped(kitchen, oven),
+    state(kitchen, oven, power, on),
+	retractall(state(Location,Obj,temperature,_)),
+	assertz(state(Location,Obj,temperature,Size)). 
 
 exe(play, music, empty, empty, Location, empty):-
     location(Location),
@@ -156,7 +177,7 @@ exe(pause, music, empty, empty, Location, empty):-
     retractall(state(Location,speaker,playing,_)),	
     assertz(state(Location, speaker, playing, false)).
 
-exe(play, Song, empty, empty, empty, Location, empty):-
+exe(play, Song, empty, empty, Location, empty):-
     location(Location),
     equiped(Location, speaker),
 	song(Song),
@@ -221,6 +242,7 @@ adjectives(L0,L2) :-
 % dictionary
 det([a | L], L).
 det([the | L], L).
+det([my | L], L).
 det(L,L).
 
 noun_c([light | L], L, light).
@@ -233,10 +255,12 @@ noun_c([volume | L], L, volume).
 noun_c([speakers | L], L, speaker).
 noun_c([speaker | L], L, speaker).
 noun_c([music | L], L, music).
+noun_c([oven | L], L, oven).
+noun_c([dish,washer | L], L, dish_washer).
 noun_c([Location | L], L, Location):- location(Location).
 noun_c([Number | L], L, Number):- number(Number).
 noun_c([channel, Num | L], L, channel_num(22)):- number(Num).
-nouc_c(S, L, Song):- append(Song, L, S), song(Song).
+noun_c(S, L, Song):- append(Song, L, S), song(Song).
 
 adj([practical | L],L).
 adj([new | L],L).
@@ -253,6 +277,7 @@ verb([drop | L], L, drop).
 verb([set | L], L, set).
 verb([play | L], L, play).
 verb([pause | L], L, pause).
+verb([start | L], L, start).
 
 preposition([in | L],L, in).
 preposition([on | L],L, on).
