@@ -153,7 +153,7 @@ exe(set, Obj, to, Size, Location, empty):-
     retractall(state(Location,Obj,temperature,_)), 
     assertz(state(Location,Obj,temperature,Size)). 
 	
-set(set, oven, to, Size, _, empty):-
+exe(set, oven, to, Size, _, empty):-
     number(Size),
     equiped(kitchen, oven),
     state(kitchen, oven, power, on),
