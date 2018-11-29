@@ -11,19 +11,43 @@ command(L1,L2,V,N,LP,L,P,N2):-
     verb_phrase(L1,L2,V,N,LP,L,P,N2),
     valid_command(V,N,LP,L,P,N2).
 
-valid_command(activate, Obj, empty, empty, empty, empty):- action(Obj,power).	
-valid_command(activate, Obj, LP, L, empty, empty):- action(Obj,power) , member(LP, [in,of]), location(L).
-valid_command(deactivate, Obj, empty, empty, empty, empty):- action(Obj,power).	
-valid_command(deactivate, Obj, LP, L, empty, empty):- action(Obj,power) , member(LP, [in,of]), location(L).
-valid_command(equip, L, empty, empty, with, Obj):- location(L), object(Obj).
-valid_command(drop, Obj, LP, L, empty, empty):- location(L), object(Obj), member(LP, [in,of]).
-valid_command(set, volume, of, Obj, to, Size):- action(Obj, volume_up), number(Size). 
-valid_command(set, channel, of, Obj, to, Size):- action(Obj, channel_up), number(Size). 
-valid_command(set, Obj, to, channel_num(Num), empty, empty):- action(Obj, channel_up), number(Num).
-valid_command(set, Obj, empty, empty, to, Size):- action(Obj, increase), number(Size).
-valid_command(set, Obj, LP, L, to, Size):- action(Obj, increase), number(Size), member(LP, [in, of]), location(L).
+valid_command(activate, Obj, empty, empty, empty, empty):- 
+    action(Obj,power).	
+valid_command(activate, Obj, LP, L, empty, empty):- 
+    action(Obj,power) , 
+    member(LP, [in,of]), location(L).
+valid_command(deactivate, Obj, empty, empty, empty, empty):- 
+    action(Obj,power).	
+valid_command(deactivate, Obj, LP, L, empty, empty):- 
+    action(Obj,power) , 
+    member(LP, [in,of]), location(L).
+valid_command(equip, L, empty, empty, with, Obj):- 
+    location(L), 
+    object(Obj).
+valid_command(drop, Obj, LP, L, empty, empty):- 
+    location(L), 
+    object(Obj), 
+    member(LP, [in,of]).
+valid_command(set, volume, of, Obj, to, Size):- 
+    action(Obj, volume_up), 
+    number(Size). 
+valid_command(set, channel, of, Obj, to, Size):- 
+    action(Obj, channel_up), 
+    number(Size). 
+valid_command(set, Obj, to, channel_num(Num), empty, empty):- 
+    action(Obj, channel_up), 
+    number(Num).
+valid_command(set, Obj, empty, empty, to, Size):- 
+    action(Obj, increase), 
+    number(Size).
+valid_command(set, Obj, LP, L, to, Size):- 
+    action(Obj, increase), 
+    number(Size), 
+    member(LP, [in, of]), 
+    location(L).
 valid_command(play, music, empty, empty, empty, empty).
-valid_command(play, Song, empty, empty, empty, empty):- song(Song).
+valid_command(play, Song, empty, empty, empty, empty):- 
+    song(Song).
 valid_command(pause, music, empty, empty, empty, empty).
 
 exe(activate,Obj,empty,empty,_, L):- 
